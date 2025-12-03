@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitio B - Premium</title>
+</head>
+<body>
+    <div id="login-view">
+        <h1>Sitio B - Premium</h1>
+        <button onclick="redirectToLogin()">Iniciar Sesión</button>
+    </div>
+
+    <div id="paywall" style="display:none">
+        <h1>Suscripción Requerida</h1>
+        <p>Usuario: <span id="user-email-pay"></span></p>
+        <p>Necesitas una suscripción para acceder a este contenido.</p>
+        <button onclick="window.location.href=CONFIG.stripeCheckoutUrl+'?client_reference_id='+getUser().sub">Suscribirse</button>
+        <button onclick="logout()">Cerrar Sesión</button>
+    </div>
+
+    <div id="app" style="display:none">
+        <h1>Contenido Premium</h1>
+        <p>Usuario: <span id="user-email"></span></p>
+        <p>¡Tienes acceso completo al contenido premium!</p>
+        <button onclick="logout()">Cerrar Sesión</button>
+    </div>
+
+    <script src="../shared/auth.js"></script>
+    <script src="config.js"></script>
+    <script>
+        requireAuth().then(ok => {
+            if (!ok) return;
+            
+            document.getElementById('login-view').style.display = 'none';
+            
+            if (isPaidUser()) {
+                document.getElementById('app').style.display = 'block';
+                document.getElementById('user-email').textContent = getUser().email;
+            } else {
+                document.getElementById('paywall').style.display = 'block';
+                document.getElementById('user-email-pay').textContent = getUser().email;
+            }
+        });
+    </script>
+</body>
+</html>

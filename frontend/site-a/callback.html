@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Autenticando...</title>
+</head>
+<body>
+    <p>Autenticando...</p>
+    <script src="../shared/auth.js"></script>
+    <script src="config.js"></script>
+    <script>
+        handleCallback().then(r => {
+            window.location.href = r.success ? 'index.html' : 'index.html?error=' + r.error;
+        });
+    </script>
+</body>
+</html>
